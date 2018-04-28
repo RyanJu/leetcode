@@ -1,5 +1,6 @@
 package com.zrk.leetcode;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -70,17 +71,56 @@ public class Test {
     }
 
     public static class Son extends Parent {
+        public class Inner{
+        }
+    }
 
+    static class InnerHerit extends Son.Inner{
+        InnerHerit(Son son){
+            son.super();
+        }
     }
 
 
 
+    static class A{
+        A(){
+            System.out.println("A constructor");
+            draw();
+            System.out.println("A constructor end");
+        }
+        void draw(){
+            System.out.println("draw A");
+        }
+
+        Object process() throws IOException{
+            return new Object();
+        }
+
+    }
+
+    static class B extends A{
+        Object object = new Object();
+        B(){
+            System.out.println("B constructor");
+            draw();
+            System.out.println("B constructor end");
+        }
+
+        void draw(){
+            System.out.println("draw B "+object);
+        }
+
+        String process(){
+            return "string";
+        }
+    }
+
+
 
     public static void main(String[] args) {
-        System.out.println(Singleton.newInstance().hashCode());
-        System.out.println(Singleton.newInstance().hashCode());
-        Object newInstance = invokeNewInstance("com.zrk.leetcode.Singleton");
-        System.out.println(newInstance.hashCode());
+        B a = new B();
+        System.out.println(a.process());
     }
 
     private static Object invokeNewInstance(String classPath) {
